@@ -11,7 +11,7 @@ class AuthDriverController extends Controller
     //
     public function register(DriverRegisterRequest $request)
     {
-        $data= $request->validated();
+        $data = $request->validated();
 
         // Hash password manually
         $data['password'] = bcrypt($data['password']);
@@ -27,20 +27,15 @@ class AuthDriverController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!auth()->guard('driver')->attempt($credentials)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid credentials'
-            ], 401);
+        if (!$token = auth('driver-api')->attempt($credentials)) {
+            return response()->json(['error' => 'Invalid driver credentials'], 401);
         }
-
-        $driver = auth()->guard('driver')->user();
-        $token = $driver->createToken('DriverToken')->plainTextToken;
 
         return response()->json([
             'status' => true,
-            'message' => 'Driver logged in successfully',
-            'token' => $token
-        ], 200);
+            'token' => $token,
+            'driver' => auth('driver-api')->user(),
+        ]);
     }
+
 }
