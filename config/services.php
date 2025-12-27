@@ -34,5 +34,8 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'location_service' => [
+        'url' => env('LOCATION_SERVICE_URL'),
+    ],
 
 ];
