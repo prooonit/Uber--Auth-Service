@@ -21,7 +21,7 @@ class DriverLocationController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-        ])->post('http://127.0.0.1:3000/driver/status', $payload);
+        ])->post(config('services.location_service.url').'/driver/status', $payload);
 
         if ($response->failed()) {
             return response()->json([
