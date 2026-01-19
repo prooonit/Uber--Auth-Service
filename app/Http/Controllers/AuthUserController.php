@@ -39,9 +39,12 @@ class AuthUserController extends Controller
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
 
-        return $token;
+        return response()->json([
+            'status' => true,
+            'message' => 'Login successful',
+            'token' => $token,
+            'user' => auth('api')->user()
+        ]);
 }
-
-
 
 }
